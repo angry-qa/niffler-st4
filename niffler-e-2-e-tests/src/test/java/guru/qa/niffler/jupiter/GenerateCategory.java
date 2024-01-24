@@ -1,17 +1,18 @@
 package guru.qa.niffler.jupiter;
 
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface User {
+@Target(ElementType.METHOD)
+@ExtendWith(CategoryExtension.class)
+public @interface GenerateCategory {
 
-  UserType value() default UserType.COMMON;
+    String username();
 
-  enum UserType {
-    WITH_FRIENDS, COMMON
-  }
+    String category();
 }
