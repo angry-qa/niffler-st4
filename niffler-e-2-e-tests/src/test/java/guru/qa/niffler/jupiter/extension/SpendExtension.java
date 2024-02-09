@@ -1,7 +1,7 @@
 package guru.qa.niffler.jupiter;
 
 import guru.qa.niffler.api.SpendApi;
-import guru.qa.niffler.model.SpendJson;
+import guru.qa.niffler.model.SpendJsonModel;
 import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -38,7 +38,7 @@ public class SpendExtension implements BeforeEachCallback, ParameterResolver {
 
     if (spend.isPresent()) {
       GenerateSpend spendData = spend.get();
-      SpendJson spendJson = new SpendJson(
+      SpendJsonModel spendJson = new SpendJsonModel(
           null,
           new Date(),
           spendData.category(),
@@ -48,7 +48,7 @@ public class SpendExtension implements BeforeEachCallback, ParameterResolver {
           spendData.username()
       );
 
-      SpendJson created = spendApi.addSpend(spendJson).execute().body();
+      SpendJsonModel created = spendApi.addSpend(spendJson).execute().body();
       extensionContext.getStore(NAMESPACE)
           .put("spend", created);
     }
@@ -58,6 +58,7 @@ public class SpendExtension implements BeforeEachCallback, ParameterResolver {
   public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
     return parameterContext.getParameter()
         .getType()
+<<<<<<< HEAD:niffler-e-2-e-tests/src/test/java/guru/qa/niffler/jupiter/extension/SpendExtension.java
         .isAssignableFrom(SpendJson.class);
   }
 
@@ -65,5 +66,14 @@ public class SpendExtension implements BeforeEachCallback, ParameterResolver {
   public SpendJson resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
     return extensionContext.getStore(NAMESPACE)
         .get("spend", SpendJson.class);
+=======
+        .isAssignableFrom(SpendJsonModel.class);
+  }
+
+  @Override
+  public SpendJsonModel resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+    return extensionContext.getStore(NAMESPACE)
+        .get("spend", SpendJsonModel.class);
+>>>>>>> 822f787a4057a6d5dbfbe4efd4df0d05475cc097:niffler-e-2-e-tests/src/test/java/guru/qa/niffler/jupiter/SpendExtension.java
   }
 }
