@@ -39,9 +39,9 @@ public class SpendingTest {
     welcomePage
             .clickLoginButton();
     loginPage
-            .setUsername("duck")
+            .setLogin("duck")
             .setPassword("duck")
-            .clickSignInButton();
+            .submit();
     mainPage
             .checkSpendingsTableRowsHasSize(1)
             .selectSpendingByDescription(spend.description())
