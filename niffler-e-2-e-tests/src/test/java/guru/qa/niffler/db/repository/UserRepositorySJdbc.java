@@ -153,4 +153,24 @@ public class UserRepositorySJdbc implements UserRepository {
       return null;
     });
   }
+
+  @Override
+  public void updateInAuth(UserAuthEntity user) {
+
+  }
+
+  @Override
+  public void updateInUserdata(UserEntity user) {
+
+  }
+
+  @Override
+  public UserAuthEntity readInAuthById(UUID id) {
+    return null;
+  }
+
+  @Override
+  public UserEntity readInUserdataById(UUID id) {
+    return null;
+  }
 }
