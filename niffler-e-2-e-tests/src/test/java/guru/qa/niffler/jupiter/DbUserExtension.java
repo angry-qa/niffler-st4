@@ -47,6 +47,7 @@ public class DbUserExtension implements BeforeTestExecutionCallback, AfterTestEx
         userRepository.deleteInAuthById(userCredentials.getUserAuthEntity().getId());
         userRepository.deleteInUserdataById(userCredentials.getUserEntity().getId());
     }
+
     private UserCredentials createUser(String username, String password) {
         UserCredentials userCredentials = new UserCredentials();
         UserAuthEntity userAuth = new UserAuthEntity();

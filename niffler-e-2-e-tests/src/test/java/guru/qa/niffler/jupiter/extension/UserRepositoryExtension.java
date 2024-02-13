@@ -14,17 +14,16 @@ public class UserRepositoryExtension implements TestInstancePostProcessor {
     for (Field field : o.getClass().getDeclaredFields()) {
       if (field.getType().isAssignableFrom(UserRepository.class)) {
         field.setAccessible(true);
-
-        if (System.getProperty("repository") != null) {
-          UserRepository repository;
-          switch (System.getProperty("repository")) {
-            case "jdbc" -> repository = new UserRepositoryJdbc();
-            case "sjdbc" -> repository = new UserRepositorySJdbc();
-            default -> throw new RuntimeException("Неверно передан параметр repository. Допустимые значения: jdbc, sjdbc");
-          }
-          System.out.println("Running with repository: " + System.getProperty("repository"));
-          field.set(o, repository);
-        } else throw new RuntimeException("Неверно передан параметр repository. Допустимые значения: jdbc, sjdbc");
+        UserRepository repository;
+        String repositoryKey = System.getProperty("repository");
+        if ("jdbc".equals(repositoryKey)) {
+          repository = new UserRepositoryJdbc();
+        } else if ("sjdbc".equals(repositoryKey)) {
+          repository = new UserRepositorySJdbc();
+        } else {
+          throw new RuntimeException("Неверно передан параметр repository");
+        }
+        field.set(o, repository);
       }
     }
   }
