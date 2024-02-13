@@ -6,15 +6,13 @@ import guru.qa.niffler.db.model.CurrencyValues;
 import guru.qa.niffler.db.repository.UserRepository;
 import guru.qa.niffler.db.repository.UserRepositoryJdbc;
 import guru.qa.niffler.jupiter.annotation.DbUser;
-import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
-import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.*;
 import org.junit.platform.commons.support.AnnotationSupport;
 
 import java.util.Arrays;
 import java.util.Optional;
 
-public class DbUserExtension implements BeforeTestExecutionCallback, AfterTestExecutionCallback  {
+public class DbUserExtension implements BeforeTestExecutionCallback, AfterTestExecutionCallback, ParameterResolver {
     public static final ExtensionContext.Namespace NAMESPACE
             = ExtensionContext.Namespace.create(DbUserExtension.class);
 
@@ -73,5 +71,20 @@ public class DbUserExtension implements BeforeTestExecutionCallback, AfterTestEx
         userCredentials.setUserEntity(user);
         userCredentials.setUserAuthEntity(userAuth);
         return userCredentials;
+    }
+
+    @Override
+    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+        return parameterContext.getParameter()
+                .getType()
+                .isAssignableFrom(UserAuthEntity.class);
+    }
+
+    @Override
+    public UserAuthEntity resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+        return extensionContext
+                .getStore(DbUserExtension.NAMESPACE)
+                .get(extensionContext.getUniqueId(), UserCredentials.class)
+                .getUserAuthEntity();
     }
 }
