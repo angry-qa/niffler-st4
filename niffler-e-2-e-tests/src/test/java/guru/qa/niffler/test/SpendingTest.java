@@ -1,10 +1,10 @@
 package guru.qa.niffler.test;
+import guru.qa.niffler.db.model.CurrencyValues;
 import guru.qa.niffler.jupiter.GenerateCategory;
-import guru.qa.niffler.jupiter.GenerateSpend;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import guru.qa.niffler.jupiter.CurrencyValues;
-import guru.qa.niffler.model.SpendJsonModel;
+import guru.qa.niffler.jupiter.SpendJsonModel;
+import guru.qa.niffler.jupiter.annotation.GenerateSpend;
 import guru.qa.niffler.page.LoginPage;
 import guru.qa.niffler.page.MainPage;
 import guru.qa.niffler.page.WelcomePage;
